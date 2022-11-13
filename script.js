@@ -5,7 +5,7 @@ var masterArray = []
 var lowerCaseArray = [...Array(26)].map((_, i) => String.fromCharCode(i + 97));
 var upperCaseArray = [...Array(26)].map((_, i) => String.fromCharCode(i + 65));
 var numberArray = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-var specialCharactersArray = ['-', '+', '*', '/', '=', ']', 
+var specialCharactersArray = ['-', '+', '*', '/', '=', ']', '[', '}', '{', '<', '>', '?', '!', '@', '#', '$', '%', '&', '*']
 
 // Get references to the #generate element
 
@@ -36,12 +36,68 @@ function writePassword() {
         if (specialCharacters) {
             masterArray = masterArray.concat(specialCharactersArray);
         }
+        //
         if (masterArray.length <= 0) {
             window.alert('Please choose at least one of the following types of characters for your password');
             return;
         }
 
+        var passwordTest = function () {
+            var newPassword = ''
+            for (i = 0; i < passwordLength; i++) {
+                var randomNumber = math.floor(Math.random() * masterArray.length);
+                newPassword = newPassword + masterArray[randomNumber];
+            }
+            //
+            if (lowerCase) {
+                i = 0;
+                result = false;
+                do {
+                    result = lowerCaseArray.includes(newPassword[i])
+                    i = i + 1
+                } while (result === false && i < newPassword.length);
+                if (result === false) {
+                    passwordTest()
+                }
+            }
+            if (upperCase) {
+                i = 0;
+                result = false;
+                do {
+                    result = upperCaseArray.includes(newPassword[i])
+                    i = i + 1
+                } while (result === false && i < newPassword.length);
+                if (result === false) {
+                    passwordTest()
+                }
+            }
+            if (number) {
+                i = 0;
+                result = false;
+                do {
+                    result = numberArray.includes(newPassword[i])
+                    i = i + 1
+                } while (result === false && i < newPassword.length);
+                if (result === false) {
+                    passwordTest()
+                }
+            }
+            if (specialCharacters) {
+                i = 0;
+                result = false;
+                do {
+                    result = specialCharactersArray.includes(newPassword[i])
+                    i = i + 1
+                } while (result === false && i < newPassword.length);
+                if (result === false) {
+                    passwordTest()
+                }
+            }
+        return newPassword;
+        }
+        return passwordTest();
     }   
+
   var password = generatePassword();
   var passwordText = document.querySelector("#password");
 
